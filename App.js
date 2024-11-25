@@ -23,6 +23,15 @@ export default function App() {
     }
   };
 
+  const limpardados = async () => {
+    setCep("");
+    setCpf('');
+    setEndereco('');
+    setIdade('');
+    setNome('');
+
+  };
+
   const handleSubmit = async () => {
     if (!cpf || !nome || !idade || !endereco) {
       Alert.alert('Erro', 'Todos os campos são obrigatórios');
@@ -30,10 +39,11 @@ export default function App() {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/users', {
-        cpf, nome, idade, endereco
+      const response = await axios.post('http://172.16.7.11:3000/users', {
+        cpf, nome, idade,cep, endereco
       });
       Alert.alert('Sucesso', 'Usuário cadastrado com sucesso');
+      limpardados();
     } catch (error) {
       Alert.alert('Erro', 'Erro ao cadastrar usuário');
     }
@@ -48,6 +58,7 @@ export default function App() {
         placeholder="Nome"
         value={nome}
         onChangeText={setNome}
+        
       />
       <TextInput
         style={styles.input}
@@ -79,6 +90,7 @@ export default function App() {
         placeholder="Endereço"
         value={endereco}
         editable={false}
+      
       />
 
       <Button title="Cadastrar" onPress={handleSubmit} />
@@ -90,18 +102,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 20,
+    padding: 50,
+    backgroundColor: "cyan",
   },
   title: {
-    fontSize: 24,
+    color: "gray",
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
+
   },
   input: {
-    borderWidth: 1,
-    padding: 10,
+    borderWidth: 3,
+    padding: 20,
     marginBottom: 10,
-    borderRadius: 5,
+    borderRadius: 10,
+    borderTopColor: 'black',
   },
+
+ 
 });

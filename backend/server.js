@@ -14,9 +14,9 @@ app.use(bodyParser.json()); // Parse do corpo das requisições em JSON
 // Configuração do banco de dados MySQL
 const db = mysql.createConnection({
     host: 'localhost',
-    user: '',
-    password: '',
-    database: 'app_data'
+    user: 'root',
+    password:'',
+    database: 'app_data',
 });
 
 db.connect((err) => {
@@ -37,14 +37,14 @@ app.get('/cep/:cep', async (req, res) => {
 
 // Rota para salvar um usuário no banco de dados
 app.post('/users', (req, res) => {
-    const { cpf, nome, idade, endereco } = req.body;
+    const { cpf, nome, idade, cep, endereco } = req.body;
 
     if (!cpf || !nome || !idade || !endereco) {
         return res.status(400).send('Dados incompletos');
     }
 
-    const query = 'INSERT INTO users (cpf, nome, idade, endereco) VALUES (?, ?, ?, ?)';
-    db.query(query, [cpf, nome, idade, endereco], (err, result) => {
+    const query = 'INSERT INTO users (cpf, nome, idade, cep, endereco) VALUES (?, ?, ?, ?, ?)';
+    db.query(query, [cpf, nome, idade, cep, endereco], (err, result) => {
         if (err) {
             return res.status(500).send('Erro ao salvar usuário');
         }
